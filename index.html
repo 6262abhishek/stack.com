@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Data Structure - Interactive Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #2a9d8f;
+            --warning: #e76f51;
+            --info: #457b9d;
+            --light-bg: #f1f3f5;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            
+            /* VS Code Theme Colors */
+            --vs-bg: #1e1e1e;
+            --vs-text: #d4d4d4;
+            --vs-keyword: #569cd6;
+            --vs-string: #ce9178;
+            --vs-number: #b5cea8;
+            --vs-comment: #6a9955;
+            --vs-function: #dcdcaa;
+            --vs-type: #4ec9b0;
+            --vs-operator: #d4d4d4;
+            --vs-punctuation: #d4d4d4;
+            --vs-class: #4ec9b0;
+            --vs-annotation: #4ec9b0;
+            --vs-line-number: #858585;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 100px 0 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin-bottom: 30px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .stack-visual {
+            width: 200px;
+            height: 300px;
+            position: relative;
+        }
+
+        .stack-item {
+            position: absolute;
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.5s ease;
+        }
+
+        .stack-item:nth-child(1) {
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
+        }
+
+        .stack-item:nth-child(2) {
+            bottom: 70px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--primary);
+        }
+
+        .stack-item:nth-child(3) {
+            bottom: 140px;
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--primary);
+        }
+
+        .stack-item:nth-child(4) {
+            bottom: 210px;
+            background: rgba(255, 255, 255, 0.6);
+            color: white;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Operations Table */
+        .operations-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .operations-table th, .operations-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .operations-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .operations-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .operations-table tr:hover {
+            background: var(--light-bg);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Code Blocks - Enhanced VS Code Style */
+        .code-block {
+            background: var(--vs-bg);
+            color: var(--vs-text);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            line-height: 1.5;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+        }
+
+        .code-header {
+            background: #2d2d30;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .code-title {
+            font-weight: 600;
+            color: #cccccc;
+            font-size: 0.95rem;
+        }
+
+        .copy-btn {
+            background: #3e3e42;
+            border: none;
+            color: #cccccc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .copy-btn:hover {
+            background: #4e4e52;
+        }
+
+        .code-content {
+            padding: 0;
+            overflow-x: auto;
+            font-size: 0.95rem;
+            display: flex;
+        }
+
+        .line-numbers {
+            background: #1e1e1e;
+            color: var(--vs-line-number);
+            padding: 20px 10px;
+            text-align: right;
+            user-select: none;
+            min-width: 40px;
+            border-right: 1px solid #333;
+        }
+
+        .code {
+            padding: 20px;
+            flex: 1;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        /* Syntax Highlighting */
+        .vs-keyword { color: var(--vs-keyword); font-weight: 500; }
+        .vs-string { color: var(--vs-string); }
+        .vs-number { color: var(--vs-number); }
+        .vs-comment { color: var(--vs-comment); font-style: italic; }
+        .vs-function { color: var(--vs-function); }
+        .vs-type { color: var(--vs-type); }
+        .vs-operator { color: var(--vs-operator); }
+        .vs-punctuation { color: var(--vs-punctuation); }
+        .vs-class { color: var(--vs-class); font-weight: 500; }
+        .vs-annotation { color: var(--vs-annotation); font-weight: 500; }
+
+        /* Output Block */
+        .output-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 12px;
+            padding: 0;
+            margin: 20px 0;
+            position: relative;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            line-height: 1.5;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+
+        .output-header {
+            background: #2d2d30;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .output-title {
+            font-weight: 600;
+            color: #cccccc;
+            font-size: 0.95rem;
+        }
+
+        .output-content {
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+            color: #ce9178;
+            white-space: pre;
+        }
+
+        /* Interactive Stack Demo */
+        .stack-demo {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .stack-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .stack-box {
+            width: 300px;
+            height: 400px;
+            border: 3px solid var(--primary);
+            border-radius: 12px;
+            position: relative;
+            display: flex;
+            flex-direction: column-reverse;
+            padding: 10px;
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .stack-element {
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .stack-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stack-input {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 150px;
+        }
+
+        /* Real Life Examples */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            transition: var(--transition);
+        }
+
+        .example-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .example-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        /* Interview Questions */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question i {
+            transition: var(--transition);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 20px 20px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .footer-column h4:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            header h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-visual {
+                display: none;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 70px 0 40px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .stack-box {
+                width: 250px;
+                height: 350px;
+            }
+            
+            .code-content {
+                flex-direction: column;
+            }
+            
+            .line-numbers {
+                text-align: left;
+                padding: 10px 20px;
+                border-right: none;
+                border-bottom: 1px solid #333;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .stack-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .stack-input {
+                width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Stack Data Structure</h1>
+                <p>A comprehensive guide to understanding and implementing stacks in programming - perfect for students, engineers, and developers.</p>
+                <div class="header-buttons">
+                    <a href="#operations" class="btn btn-primary">Explore Operations</a>
+                    <a href="#implementations" class="btn btn-outline">View Implementations</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="stack-visual">
+                <div class="stack-item">30</div>
+                <div class="stack-item">20</div>
+                <div class="stack-item">10</div>
+                <div class="stack-item">Top</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">StackGuide</div>
+            <ul class="nav-links">
+                <li><a href="#what-is-stack">What is Stack?</a></li>
+                <li><a href="#operations">Operations</a></li>
+                <li><a href="#implementations">Implementations</a></li>
+                <li><a href="#real-life">Real-Life Examples</a></li>
+                <li><a href="#interview">Interview Q&A</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- What is Stack Section -->
+    <section id="what-is-stack">
+        <div class="container">
+            <h2 class="section-title fade-in">What is a Stack?</h2>
+            <p class="section-subtitle fade-in">A Stack is a linear data structure that follows the LIFO (Last In, First Out) principle. This means the last element inserted is the first one to be removed.</p>
+            
+            <div class="card fade-in">
+                <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                <h3>LIFO Principle</h3>
+                <p>Imagine a stack of plates. When you add a new plate to the top, that's the "push" operation. When you remove a plate, you take it from the top - that's the "pop" operation. The last plate you added is the first one you remove.</p>
+            </div>
+            
+            <div class="card fade-in">
+                <div class="card-icon"><i class="fas fa-cubes"></i></div>
+                <h3>Key Characteristics</h3>
+                <ul>
+                    <li>Elements are added and removed from the same end (top)</li>
+                    <li>Follows Last In First Out (LIFO) order</li>
+                    <li>Supports four basic operations: push, pop, peek, and isEmpty</li>
+                    <li>Can be implemented using arrays, linked lists, or other data structures</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Operations Section -->
+    <section id="operations">
+        <div class="container">
+            <h2 class="section-title fade-in">Common Stack Operations</h2>
+            <p class="section-subtitle fade-in">Stacks support several fundamental operations that allow you to manipulate and access data efficiently.</p>
+            
+            <table class="operations-table fade-in">
+                <thead>
+                    <tr>
+                        <th>Operation</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>push(x)</strong></td>
+                        <td>Add (insert) an element on the top of the stack</td>
+                        <td>push(10)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>pop()</strong></td>
+                        <td>Remove the top element from the stack</td>
+                        <td>pop() → removes last element</td>
+                    </tr>
+                    <tr>
+                        <td><strong>peek() / top()</strong></td>
+                        <td>View the top element without removing it</td>
+                        <td>peek() → returns top</td>
+                    </tr>
+                    <tr>
+                        <td><strong>isEmpty()</strong></td>
+                        <td>Check if the stack is empty</td>
+                        <td>true / false</td>
+                    </tr>
+                    <tr>
+                        <td><strong>size()</strong></td>
+                        <td>Returns total number of elements</td>
+                        <td>returns count</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Interactive Stack Demo -->
+            <div class="stack-demo fade-in">
+                <h3>Interactive Stack Demo</h3>
+                <p>Try the stack operations yourself:</p>
+                
+                <div class="stack-container">
+                    <div class="stack-box" id="stackBox">
+                        <!-- Stack elements will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="stack-controls">
+                    <input type="number" class="stack-input" id="stackInput" placeholder="Enter a number">
+                    <button class="btn btn-primary" id="pushBtn">Push</button>
+                    <button class="btn" id="popBtn">Pop</button>
+                    <button class="btn" id="peekBtn">Peek</button>
+                    <button class="btn" id="clearBtn">Clear</button>
+                </div>
+                
+                <div id="stackOutput" style="margin-top: 20px; font-weight: 500;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementations Section -->
+    <section id="implementations">
+        <div class="container">
+            <h2 class="section-title fade-in">Stack Implementations</h2>
+            <p class="section-subtitle fade-in">Stacks can be implemented in various ways. Here are the most common implementations with code examples.</p>
+            
+            <div class="tabs fade-in">
+                <div class="tab active" data-tab="array">Array-based</div>
+                <div class="tab" data-tab="linkedlist">Linked List</div>
+                <div class="tab" data-tab="javautil">Java.util.Stack</div>
+            </div>
+            
+            <div class="tab-content active" id="array">
+                <div class="card">
+                    <h3>Implementation Using Array (Java)</h3>
+                    <p>Array-based implementation is simple and efficient when the maximum size is known in advance.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-title">Stack.java</div>
+                            <button class="copy-btn" data-copy="array-code">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50<br>51<br>52<br>53<br>54<br>55<br>56<br>57<br>58<br>59<br>60<br>61<br>62<br>63<br>64<br>65<br>66<br>67<br>68<br>69<br>70<br>71<br>72<br>73<br>74<br>75<br>76<br>77<br>78<br>79<br>80<br>81<br>82<br>83<br>84<br>85<br>86<br>87<br>88<br>89<br>90<br>91<br>92<br>93<br>94<br>95<br>96<br>97<br>98<br>99<br>100</div>
+                            <div class="code" id="array-code">
+<span class="vs-keyword">class</span> <span class="vs-class">Stack</span> <span class="vs-punctuation">{</span>
+    <span class="vs-type">int</span> top<span class="vs-punctuation">;</span>
+    <span class="vs-type">int</span> maxSize<span class="vs-punctuation">;</span>
+    <span class="vs-type">int</span><span class="vs-punctuation">[]</span> stackArray<span class="vs-punctuation">;</span>
+
+    <span class="vs-comment">// Constructor</span>
+    <span class="vs-class">Stack</span><span class="vs-punctuation">(</span><span class="vs-type">int</span> size<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        maxSize <span class="vs-operator">=</span> size<span class="vs-punctuation">;</span>
+        stackArray <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-type">int</span><span class="vs-punctuation">[</span>maxSize<span class="vs-punctuation">]</span><span class="vs-punctuation">;</span>
+        top <span class="vs-operator">=</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Push operation</span>
+    <span class="vs-keyword">void</span> <span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-type">int</span> value<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span>top <span class="vs-operator">==</span> maxSize <span class="vs-operator">-</span> <span class="vs-number">1</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack Overflow! Cannot push "</span> <span class="vs-operator">+</span> value<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span> <span class="vs-keyword">else</span> <span class="vs-punctuation">{</span>
+            stackArray<span class="vs-punctuation">[</span><span class="vs-operator">++</span>top<span class="vs-punctuation">]</span> <span class="vs-operator">=</span> value<span class="vs-punctuation">;</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span>value <span class="vs-operator">+</span> <span class="vs-string">" pushed into stack"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Pop operation</span>
+    <span class="vs-type">int</span> <span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span>top <span class="vs-operator">==</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack Underflow! Nothing to pop"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span> <span class="vs-keyword">else</span> <span class="vs-punctuation">{</span>
+            <span class="vs-type">int</span> popped <span class="vs-operator">=</span> stackArray<span class="vs-punctuation">[</span>top<span class="vs-operator">--</span><span class="vs-punctuation">]</span><span class="vs-punctuation">;</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span>popped <span class="vs-operator">+</span> <span class="vs-string">" popped from stack"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> popped<span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Peek operation</span>
+    <span class="vs-type">int</span> <span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span>top <span class="vs-operator">==</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack is empty"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span> <span class="vs-keyword">else</span> <span class="vs-punctuation">{</span>
+            <span class="vs-keyword">return</span> stackArray<span class="vs-punctuation">[</span>top<span class="vs-punctuation">]</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Check if stack is empty</span>
+    <span class="vs-keyword">boolean</span> <span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">return</span> <span class="vs-punctuation">(</span>top <span class="vs-operator">==</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Check size</span>
+    <span class="vs-type">int</span> <span class="vs-function">size</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">return</span> top <span class="vs-operator">+</span> <span class="vs-number">1</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Display elements</span>
+    <span class="vs-keyword">void</span> <span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack is empty"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span> <span class="vs-keyword">else</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">print</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack elements: "</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">for</span> <span class="vs-punctuation">(</span><span class="vs-type">int</span> i <span class="vs-operator">=</span> <span class="vs-number">0</span><span class="vs-punctuation">;</span> i <span class="vs-operator">&lt;=</span> top<span class="vs-punctuation">;</span> i<span class="vs-operator">++</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+                System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">print</span><span class="vs-punctuation">(</span>stackArray<span class="vs-punctuation">[</span>i<span class="vs-punctuation">]</span> <span class="vs-operator">+</span> <span class="vs-string">" "</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-punctuation">}</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-title">StackExample.java</div>
+                            <button class="copy-btn" data-copy="array-driver">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30</div>
+                            <div class="code" id="array-driver">
+<span class="vs-keyword">public</span> <span class="vs-keyword">class</span> <span class="vs-class">StackExample</span> <span class="vs-punctuation">{</span>
+    <span class="vs-keyword">public</span> <span class="vs-keyword">static</span> <span class="vs-keyword">void</span> <span class="vs-function">main</span><span class="vs-punctuation">(</span><span class="vs-type">String</span><span class="vs-punctuation">[</span><span class="vs-punctuation">]</span> args<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-class">Stack</span> stack <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">Stack</span><span class="vs-punctuation">(</span><span class="vs-number">5</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">10</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">20</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">30</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        stack<span class="vs-punctuation">.</span><span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Top element: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack size: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">size</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        stack<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Is stack empty? "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="output-block">
+                        <div class="output-header">
+                            <div class="output-title">Output</div>
+                        </div>
+                        <div class="output-content">
+10 pushed into stack
+20 pushed into stack
+30 pushed into stack
+Stack elements: 10 20 30
+Top element: 30
+Stack size: 3
+30 popped from stack
+Stack elements: 10 20
+Is stack empty: false
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="linkedlist">
+                <div class="card">
+                    <h3>Implementation Using Linked List (Java)</h3>
+                    <p>Linked list implementation is dynamic and doesn't have a fixed size limit.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-title">Node.java</div>
+                            <button class="copy-btn" data-copy="node-code">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+                            <div class="code" id="node-code">
+<span class="vs-keyword">class</span> <span class="vs-class">Node</span> <span class="vs-punctuation">{</span>
+    <span class="vs-type">int</span> data<span class="vs-punctuation">;</span>
+    <span class="vs-class">Node</span> next<span class="vs-punctuation">;</span>
+
+    <span class="vs-class">Node</span><span class="vs-punctuation">(</span><span class="vs-type">int</span> data<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">this</span><span class="vs-punctuation">.</span>data <span class="vs-operator">=</span> data<span class="vs-punctuation">;</span>
+        <span class="vs-keyword">this</span><span class="vs-punctuation">.</span>next <span class="vs-operator">=</span> <span class="vs-keyword">null</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-title">Stack.java</div>
+                            <button class="copy-btn" data-copy="ll-stack-code">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50<br>51<br>52<br>53<br>54<br>55<br>56<br>57<br>58<br>59<br>60<br>61<br>62<br>63<br>64<br>65<br>66<br>67<br>68<br>69<br>70<br>71<br>72<br>73<br>74<br>75<br>76<br>77<br>78<br>79<br>80<br>81<br>82<br>83<br>84<br>85<br>86<br>87<br>88<br>89<br>90<br>91<br>92<br>93<br>94<br>95<br>96<br>97<br>98<br>99<br>100</div>
+                            <div class="code" id="ll-stack-code">
+<span class="vs-keyword">class</span> <span class="vs-class">Stack</span> <span class="vs-punctuation">{</span>
+    <span class="vs-keyword">private</span> <span class="vs-class">Node</span> top<span class="vs-punctuation">;</span>
+    <span class="vs-keyword">private</span> <span class="vs-type">int</span> size<span class="vs-punctuation">;</span>
+
+    <span class="vs-class">Stack</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">this</span><span class="vs-punctuation">.</span>top <span class="vs-operator">=</span> <span class="vs-keyword">null</span><span class="vs-punctuation">;</span>
+        <span class="vs-keyword">this</span><span class="vs-punctuation">.</span>size <span class="vs-operator">=</span> <span class="vs-number">0</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Push operation</span>
+    <span class="vs-keyword">void</span> <span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-type">int</span> data<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-class">Node</span> newNode <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">Node</span><span class="vs-punctuation">(</span>data<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        newNode<span class="vs-punctuation">.</span>next <span class="vs-operator">=</span> top<span class="vs-punctuation">;</span> <span class="vs-comment">// link new node to previous top</span>
+        top <span class="vs-operator">=</span> newNode<span class="vs-punctuation">;</span> <span class="vs-comment">// make new node the top</span>
+        size<span class="vs-operator">++</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span>data <span class="vs-operator">+</span> <span class="vs-string">" pushed into stack"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Pop operation</span>
+    <span class="vs-type">int</span> <span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack Underflow! Nothing to pop"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        <span class="vs-type">int</span> value <span class="vs-operator">=</span> top<span class="vs-punctuation">.</span>data<span class="vs-punctuation">;</span>
+        top <span class="vs-operator">=</span> top<span class="vs-punctuation">.</span>next<span class="vs-punctuation">;</span> <span class="vs-comment">// move top to next node</span>
+        size<span class="vs-operator">--</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span>value <span class="vs-operator">+</span> <span class="vs-string">" popped from stack"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-keyword">return</span> value<span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Peek operation</span>
+    <span class="vs-type">int</span> <span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack is empty"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        <span class="vs-keyword">return</span> top<span class="vs-punctuation">.</span>data<span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+    
+    <span class="vs-comment">// Check if stack is empty</span>
+    <span class="vs-keyword">boolean</span> <span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">return</span> top <span class="vs-operator">==</span> <span class="vs-keyword">null</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Return size</span>
+    <span class="vs-type">int</span> <span class="vs-function">size</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">return</span> size<span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Display stack elements</span>
+    <span class="vs-keyword">void</span> <span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack is empty"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+
+        <span class="vs-class">Node</span> temp <span class="vs-operator">=</span> top<span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">print</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack elements (Top to Bottom): "</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-keyword">while</span> <span class="vs-punctuation">(</span>temp <span class="vs-operator">!=</span> <span class="vs-keyword">null</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">print</span><span class="vs-punctuation">(</span>temp<span class="vs-punctuation">.</span>data <span class="vs-operator">+</span> <span class="vs-string">" "</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            temp <span class="vs-operator">=</span> temp<span class="vs-punctuation">.</span>next<span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-title">StackLinkedListDemo.java</div>
+                            <button class="copy-btn" data-copy="ll-driver">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24</div>
+                            <div class="code" id="ll-driver">
+<span class="vs-keyword">public</span> <span class="vs-keyword">class</span> <span class="vs-class">StackLinkedListDemo</span> <span class="vs-punctuation">{</span>
+    <span class="vs-keyword">public</span> <span class="vs-keyword">static</span> <span class="vs-keyword">void</span> <span class="vs-function">main</span><span class="vs-punctuation">(</span><span class="vs-type">String</span><span class="vs-punctuation">[</span><span class="vs-punctuation">]</span> args<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-class">Stack</span> stack <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">Stack</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">10</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">20</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">30</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Top element: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack size: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">size</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Is stack empty? "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="output-block">
+                        <div class="output-header">
+                            <div class="output-title">Output</div>
+                        </div>
+                        <div class="output-content">
+10 pushed into stack
+20 pushed into stack
+30 pushed into stack
+Stack elements (Top to Bottom): 30 20 10
+Top element: 30
+30 popped from stack
+Stack elements (Top to Bottom): 20 10
+Stack size: 2
+Is stack empty: false
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="javautil">
+                <div class="card">
+                    <h3>Using Java's Built-in Stack Class</h3>
+                    <p>Java provides a ready-made Stack class in the java.util package that's easier to use than writing your own implementation.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-title">StackDemo.java</div>
+                            <button class="copy-btn" data-copy="javautil-code">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26</div>
+                            <div class="code" id="javautil-code">
+<span class="vs-keyword">import</span> java<span class="vs-punctuation">.</span>util<span class="vs-punctuation">.</span><span class="vs-class">Stack</span><span class="vs-punctuation">;</span>
+
+<span class="vs-keyword">public</span> <span class="vs-keyword">class</span> <span class="vs-class">StackDemo</span> <span class="vs-punctuation">{</span>
+    <span class="vs-keyword">public</span> <span class="vs-keyword">static</span> <span class="vs-keyword">void</span> <span class="vs-function">main</span><span class="vs-punctuation">(</span><span class="vs-type">String</span><span class="vs-punctuation">[</span><span class="vs-punctuation">]</span> args<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-comment">// Create a Stack of integers</span>
+        <span class="vs-class">Stack</span><span class="vs-punctuation">&lt;</span><span class="vs-type">Integer</span><span class="vs-punctuation">&gt;</span> stack <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">Stack</span><span class="vs-punctuation">&lt;</span><span class="vs-punctuation">&gt;</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Push elements</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">10</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">20</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">30</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Display full stack</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Peek top element</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Top element: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Pop element</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"After pop: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Check if empty</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Is stack empty? "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Get size</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack size: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">size</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="output-block">
+                        <div class="output-header">
+                            <div class="output-title">Output</div>
+                        </div>
+                        <div class="output-content">
+Stack: [10, 20, 30]
+Top element: 30
+After pop: [10, 20]
+Is stack empty: false
+Stack size: 2
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Common Methods of Java's Stack Class</h3>
+                        <table class="operations-table">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>push(E item)</strong></td>
+                                    <td>Adds an element to the top</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>pop()</strong></td>
+                                    <td>Removes and returns top element</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>peek()</strong></td>
+                                    <td>Returns top element without removing</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>isEmpty()</strong></td>
+                                    <td>Checks if stack is empty</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>size()</strong></td>
+                                    <td>Returns number of elements</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>search(Object o)</strong></td>
+                                    <td>Returns position from top (1-based index)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-Life Examples Section -->
+    <section id="real-life">
+        <div class="container">
+            <h2 class="section-title fade-in">Real-Life Examples of Stack</h2>
+            <p class="section-subtitle fade-in">Stacks are not just theoretical concepts - they're used in many real-world applications.</p>
+            
+            <div class="examples-grid fade-in">
+                <div class="example-card">
+                    <div class="example-icon"><i class="fas fa-undo-alt"></i></div>
+                    <h3>Undo/Redo in Text Editors</h3>
+                    <p>Every action (like typing) is pushed into a stack. Undo pops the last action. Redo pushes it again.</p>
+                </div>
+                
+                <div class="example-card">
+                    <div class="example-icon"><i class="fas fa-history"></i></div>
+                    <h3>Browser History</h3>
+                    <p>Each visited page is pushed into a stack. When you press back, the top page is popped.</p>
+                </div>
+                
+                <div class="example-card">
+                    <div class="example-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>App Navigation (Back Button)</h3>
+                    <p>Screens are stacked — pressing back removes (pops) the top screen.</p>
+                </div>
+                
+                <div class="example-card">
+                    <div class="example-icon"><i class="fas fa-code-branch"></i></div>
+                    <h3>Recursion in Programming</h3>
+                    <p>Function calls are stored in the call stack; the last called function returns first.</p>
+                </div>
+                
+                <div class="example-card">
+                    <div class="example-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>Stack of Plates or Books</h3>
+                    <p>You can only take or add from the top — same concept as LIFO.</p>
+                </div>
+            </div>
+            
+            <div class="card fade-in">
+                <h3>Browser History Example (Conceptually)</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="code-title">BrowserHistory.java</div>
+                        <button class="copy-btn" data-copy="browser-history">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20</div>
+                        <div class="code" id="browser-history">
+<span class="vs-keyword">import</span> java<span class="vs-punctuation">.</span>util<span class="vs-punctuation">.</span><span class="vs-class">Stack</span><span class="vs-punctuation">;</span>
+
+<span class="vs-keyword">public</span> <span class="vs-keyword">class</span> <span class="vs-class">BrowserHistory</span> <span class="vs-punctuation">{</span>
+    <span class="vs-keyword">public</span> <span class="vs-keyword">static</span> <span class="vs-keyword">void</span> <span class="vs-function">main</span><span class="vs-punctuation">(</span><span class="vs-type">String</span><span class="vs-punctuation">[</span><span class="vs-punctuation">]</span> args<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-class">Stack</span><span class="vs-punctuation">&lt;</span><span class="vs-type">String</span><span class="vs-punctuation">&gt;</span> history <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">Stack</span><span class="vs-punctuation">&lt;</span><span class="vs-punctuation">&gt;</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Visiting pages</span>
+        history<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-string">"Home"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        history<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-string">"About"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        history<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-string">"Services"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        history<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-string">"Contact"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Current Page: "</span> <span class="vs-operator">+</span> history<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Pressing back</span>
+        history<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"After going back, current page: "</span> <span class="vs-operator">+</span> history<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+
+        <span class="vs-comment">// Show history</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"All visited pages: "</span> <span class="vs-operator">+</span> history<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="output-block">
+                    <div class="output-header">
+                        <div class="output-title">Output</div>
+                    </div>
+                    <div class="output-content">
+Current Page: Contact
+After going back, current page: Services
+All visited pages: [Home, About, Services]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interview Questions Section -->
+    <section id="interview">
+        <div class="container">
+            <h2 class="section-title fade-in">Top Stack Interview Questions</h2>
+            <p class="section-subtitle fade-in">Common questions about stacks asked in technical interviews with clear answers.</p>
+            
+            <div class="faq-container fade-in">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is a Stack?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>A Stack is a linear data structure that follows LIFO (Last In, First Out) order. Example: plates stack — last kept plate is removed first.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What are basic operations of Stack?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>• push() → add item<br>• pop() → remove item<br>• peek() → get top item<br>• isEmpty() → check if empty<br>• size() → count items</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Difference between Stack and Queue?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Stack</strong>: LIFO, push/pop, Top-based<br><strong>Queue</strong>: FIFO, enqueue/dequeue, Front-rear based</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can a stack overflow or underflow occur?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>• Overflow → When we push to a full array stack.<br>• Underflow → When we pop from an empty stack.<br>(LinkedList stack doesn't overflow since it grows dynamically.)</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is the time complexity of stack operations?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Push</strong>: O(1)<br><strong>Pop</strong>: O(1)<br><strong>Peek</strong>: O(1)<br><strong>isEmpty</strong>: O(1)<br>All are constant time operations</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Explain recursion and call stack.</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Every function call is pushed onto the call stack. When a function ends, it is popped. This helps the program remember where to return after each function.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Where are stacks used in programming?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>• Recursion and function calls<br>• Expression evaluation (postfix, prefix)<br>• Syntax parsing (compiler design)<br>• Undo/Redo operations<br>• Memory management (call stack)</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is Stack Overflow (in memory)?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>When recursive calls go infinite (no stop condition), the program keeps pushing function calls into stack memory → StackOverflowError occurs in Java.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">StackGuide</div>
+                    <p>A comprehensive learning resource for understanding stack data structures.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#what-is-stack">What is Stack?</a></li>
+                            <li><a href="#operations">Operations</a></li>
+                            <li><a href="#implementations">Implementations</a></li>
+                            <li><a href="#real-life">Real-Life Examples</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Advanced Topics</h4>
+                        <ul>
+                            <li><a href="#">Stack using Two Queues</a></li>
+                            <li><a href="#">Stack using Single Queue</a></li>
+                            <li><a href="#">Stack Applications</a></li>
+                            <li><a href="#">Interview Questions</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="#">GitHub</a></li>
+                            <li><a href="#">Twitter</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 StackGuide. All rights reserved. Designed for students, engineers, and developers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // FAQ accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Toggle active class
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Copy code functionality
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const codeId = button.getAttribute('data-copy');
+                    const codeElement = document.getElementById(codeId);
+                    
+                    if (codeElement) {
+                        // Create a temporary textarea to hold the text
+                        const textarea = document.createElement('textarea');
+                        textarea.value = codeElement.textContent;
+                        document.body.appendChild(textarea);
+                        
+                        // Select and copy the text
+                        textarea.select();
+                        document.execCommand('copy');
+                        
+                        // Remove the textarea
+                        document.body.removeChild(textarea);
+                        
+                        // Show notification
+                        showNotification('Code copied to clipboard!');
+                    }
+                });
+            });
+            
+            // Interactive Stack Demo
+            const stackBox = document.getElementById('stackBox');
+            const stackInput = document.getElementById('stackInput');
+            const pushBtn = document.getElementById('pushBtn');
+            const popBtn = document.getElementById('popBtn');
+            const peekBtn = document.getElementById('peekBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const stackOutput = document.getElementById('stackOutput');
+            
+            let stack = [];
+            
+            pushBtn.addEventListener('click', () => {
+                const value = stackInput.value.trim();
+                
+                if (value === '') {
+                    showNotification('Please enter a value to push', 'warning');
+                    return;
+                }
+                
+                // Add to stack
+                stack.push(value);
+                
+                // Update visual stack
+                updateStackVisual();
+                
+                // Clear input
+                stackInput.value = '';
+                
+                // Show message
+                showNotification(`${value} pushed to stack`);
+            });
+            
+            popBtn.addEventListener('click', () => {
+                if (stack.length === 0) {
+                    showNotification('Stack is empty! Cannot pop', 'warning');
+                    return;
+                }
+                
+                // Remove from stack
+                const poppedValue = stack.pop();
+                
+                // Update visual stack
+                updateStackVisual();
+                
+                // Show message
+                showNotification(`${poppedValue} popped from stack`);
+            });
+            
+            peekBtn.addEventListener('click', () => {
+                if (stack.length === 0) {
+                    showNotification('Stack is empty!', 'warning');
+                    return;
+                }
+                
+                // Show top element
+                const topValue = stack[stack.length - 1];
+                showNotification(`Top element: ${topValue}`);
+            });
+            
+            clearBtn.addEventListener('click', () => {
+                stack = [];
+                updateStackVisual();
+                showNotification('Stack cleared');
+            });
+            
+            function updateStackVisual() {
+                // Clear current stack display
+                stackBox.innerHTML = '';
+                
+                // Add each element as a stack element
+                stack.forEach((value, index) => {
+                    const element = document.createElement('div');
+                    element.className = 'stack-element';
+                    element.textContent = value;
+                    stackBox.appendChild(element);
+                });
+                
+                // If stack is empty, show a message
+                if (stack.length === 0) {
+                    stackBox.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #aaa;">Stack is empty</div>';
+                }
+            }
+            
+            // Initialize stack visual
+            updateStackVisual();
+            
+            // Notification function
+            function showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                
+                // Set message
+                notification.textContent = message;
+                
+                // Set background color based on type
+                if (type === 'warning') {
+                    notification.style.background = '#e76f51';
+                } else {
+                    notification.style.background = '#2a9d8f';
+                }
+                
+                // Show notification
+                notification.classList.add('show');
+                
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const target = document.querySelector(this.getAttribute('href'));
+                    
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Add fade-in animation to elements
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                element.style.opacity = 0;
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
