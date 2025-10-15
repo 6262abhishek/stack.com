@@ -812,6 +812,7 @@
                 <li><a href="#operations">Operations</a></li>
                 <li><a href="#implementations">Implementations</a></li>
                 <li><a href="#real-life">Real-Life Examples</a></li>
+                <li><a href="#advanced">Advanced Topics</a></li>
                 <li><a href="#interview">Interview Q&A</a></li>
             </ul>
         </div>
@@ -1397,6 +1398,405 @@ All visited pages: [Home, About, Services]
         </div>
     </section>
 
+    <!-- Advanced Topics Section -->
+    <section id="advanced">
+        <div class="container">
+            <h2 class="section-title fade-in">Advanced Topics</h2>
+            <p class="section-subtitle fade-in">Explore more complex stack implementations and applications for deeper understanding.</p>
+            
+            <div class="tabs fade-in">
+                <div class="tab active" data-tab="two-queues">Stack using Two Queues</div>
+                <div class="tab" data-tab="single-queue">Stack using Single Queue</div>
+                <div class="tab" data-tab="applications">Stack Applications</div>
+            </div>
+            
+            <div class="tab-content active" id="two-queues">
+                <div class="card">
+                    <h3>Implement Stack using Two Queues</h3>
+                    <p>We can implement a stack using two queues. The idea is to make the newly pushed element always at the front of one of the queues, so that pop operation can dequeue from it.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-title">StackUsingTwoQueues.java</div>
+                            <button class="copy-btn" data-copy="two-queues-code">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50<br>51<br>52<br>53<br>54<br>55<br>56<br>57<br>58<br>59<br>60<br>61<br>62<br>63<br>64<br>65<br>66<br>67<br>68<br>69<br>70<br>71<br>72<br>73<br>74<br>75<br>76<br>77<br>78<br>79<br>80<br>81<br>82<br>83<br>84<br>85<br>86<br>87<br>88<br>89<br>90<br>91<br>92<br>93<br>94<br>95<br>96<br>97<br>98<br>99<br>100</div>
+                            <div class="code" id="two-queues-code">
+<span class="vs-keyword">import</span> java<span class="vs-punctuation">.</span>util<span class="vs-punctuation">.</span><span class="vs-class">LinkedList</span><span class="vs-punctuation">;</span>
+<span class="vs-keyword">import</span> java<span class="vs-punctuation">.</span>util<span class="vs-punctuation">.</span><span class="vs-class">Queue</span><span class="vs-punctuation">;</span>
+
+<span class="vs-keyword">class</span> <span class="vs-class">StackUsingTwoQueues</span> <span class="vs-punctuation">{</span>
+    <span class="vs-class">Queue</span><span class="vs-punctuation">&lt;</span><span class="vs-type">Integer</span><span class="vs-punctuation">&gt;</span> q1 <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">LinkedList</span><span class="vs-punctuation">&lt;</span><span class="vs-punctuation">&gt;</span><span class="vs-punctuation">();</span>
+    <span class="vs-class">Queue</span><span class="vs-punctuation">&lt;</span><span class="vs-type">Integer</span><span class="vs-punctuation">&gt;</span> q2 <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">LinkedList</span><span class="vs-punctuation">&lt;</span><span class="vs-punctuation">&gt;</span><span class="vs-punctuation">();</span>
+
+    <span class="vs-comment">// Push operation (costly)</span>
+    <span class="vs-keyword">void</span> <span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-type">int</span> x<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-comment">// Step 1: Push element into q2</span>
+        q2<span class="vs-punctuation">.</span><span class="vs-function">add</span><span class="vs-punctuation">(</span>x<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        <span class="vs-comment">// Step 2: Move all elements of q1 into q2</span>
+        <span class="vs-keyword">while</span> <span class="vs-punctuation">(</span><span class="vs-operator">!</span>q1<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            q2<span class="vs-punctuation">.</span><span class="vs-function">add</span><span class="vs-punctuation">(</span>q1<span class="vs-punctuation">.</span><span class="vs-function">remove</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        
+        <span class="vs-comment">// Step 3: Swap q1 and q2</span>
+        <span class="vs-class">Queue</span><span class="vs-punctuation">&lt;</span><span class="vs-type">Integer</span><span class="vs-punctuation">&gt;</span> temp <span class="vs-operator">=</span> q1<span class="vs-punctuation">;</span>
+        q1 <span class="vs-operator">=</span> q2<span class="vs-punctuation">;</span>
+        q2 <span class="vs-operator">=</span> temp<span class="vs-punctuation">;</span>
+        
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Pushed "</span> <span class="vs-operator">+</span> x <span class="vs-operator">+</span> <span class="vs-string">" to stack"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Pop operation</span>
+    <span class="vs-type">int</span> <span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span>q1<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack Underflow! Nothing to pop"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        
+        <span class="vs-type">int</span> popped <span class="vs-operator">=</span> q1<span class="vs-punctuation">.</span><span class="vs-function">remove</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Popped: "</span> <span class="vs-operator">+</span> popped<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-keyword">return</span> popped<span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Peek operation</span>
+    <span class="vs-type">int</span> <span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span>q1<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack is empty"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        <span class="vs-keyword">return</span> q1<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Check if empty</span>
+    <span class="vs-keyword">boolean</span> <span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">return</span> q1<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Display stack elements</span>
+    <span class="vs-keyword">void</span> <span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack is empty"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">print</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack elements: "</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-keyword">for</span> <span class="vs-type">Integer</span> item <span class="vs-punctuation">:</span> q1<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">print</span><span class="vs-punctuation">(</span>item <span class="vs-operator">+</span> <span class="vs-string">" "</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+
+<span class="vs-keyword">public</span> <span class="vs-keyword">class</span> <span class="vs-class">Main</span> <span class="vs-punctuation">{</span>
+    <span class="vs-keyword">public</span> <span class="vs-keyword">static</span> <span class="vs-keyword">void</span> <span class="vs-function">main</span><span class="vs-punctuation">(</span><span class="vs-type">String</span><span class="vs-punctuation">[</span><span class="vs-punctuation">]</span> args<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-class">StackUsingTwoQueues</span> stack <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">StackUsingTwoQueues</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">10</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">20</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">30</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        stack<span class="vs-punctuation">.</span><span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Top element: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        stack<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Is stack empty? "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="output-block">
+                        <div class="output-header">
+                            <div class="output-title">Output</div>
+                        </div>
+                        <div class="output-content">
+Pushed 10 to stack
+Pushed 20 to stack
+Pushed 30 to stack
+Stack elements: 30 20 10
+Top element: 30
+Popped: 30
+Stack elements: 20 10
+Is stack empty? false
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Explanation</h3>
+                        <p>In this implementation, we use two queues to simulate a stack:</p>
+                        <ul>
+                            <li><strong>Push Operation (O(n)):</strong> We add the new element to q2, then move all elements from q1 to q2, and finally swap q1 and q2. This ensures the newest element is always at the front of q1.</li>
+                            <li><strong>Pop Operation (O(1)):</strong> We simply remove and return the front element of q1.</li>
+                            <li><strong>Peek Operation (O(1)):</strong> We return the front element of q1 without removing it.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="single-queue">
+                <div class="card">
+                    <h3>Implement Stack using Single Queue</h3>
+                    <p>We can also implement a stack using just one queue. The idea is to rotate the queue after each push operation to maintain the LIFO order.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-title">StackUsingSingleQueue.java</div>
+                            <button class="copy-btn" data-copy="single-queue-code">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50<br>51<br>52<br>53<br>54<br>55<br>56<br>57<br>58<br>59<br>60<br>61<br>62<br>63<br>64<br>65<br>66<br>67<br>68<br>69<br>70<br>71<br>72<br>73<br>74<br>75<br>76<br>77<br>78<br>79<br>80<br>81<br>82<br>83<br>84<br>85<br>86<br>87<br>88<br>89<br>90<br>91<br>92<br>93<br>94<br>95<br>96<br>97<br>98<br>99<br>100</div>
+                            <div class="code" id="single-queue-code">
+<span class="vs-keyword">import</span> java<span class="vs-punctuation">.</span>util<span class="vs-punctuation">.</span><span class="vs-class">LinkedList</span><span class="vs-punctuation">;</span>
+<span class="vs-keyword">import</span> java<span class="vs-punctuation">.</span>util<span class="vs-punctuation">.</span><span class="vs-class">Queue</span><span class="vs-punctuation">;</span>
+
+<span class="vs-keyword">class</span> <span class="vs-class">StackUsingSingleQueue</span> <span class="vs-punctuation">{</span>
+    <span class="vs-class">Queue</span><span class="vs-punctuation">&lt;</span><span class="vs-type">Integer</span><span class="vs-punctuation">&gt;</span> q <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">LinkedList</span><span class="vs-punctuation">&lt;</span><span class="vs-punctuation">&gt;</span><span class="vs-punctuation">();</span>
+
+    <span class="vs-comment">// Push operation (costly)</span>
+    <span class="vs-keyword">void</span> <span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-type">int</span> x<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-comment">// Get current size of queue</span>
+        <span class="vs-type">int</span> size <span class="vs-operator">=</span> q<span class="vs-punctuation">.</span><span class="vs-function">size</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        <span class="vs-comment">// Add the new element to the queue</span>
+        q<span class="vs-punctuation">.</span><span class="vs-function">add</span><span class="vs-punctuation">(</span>x<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        <span class="vs-comment">// Rotate the queue (size - 1) times</span>
+        <span class="vs-keyword">for</span> <span class="vs-punctuation">(</span><span class="vs-type">int</span> i <span class="vs-operator">=</span> <span class="vs-number">0</span><span class="vs-punctuation">;</span> i <span class="vs-operator">&lt;</span> size<span class="vs-punctuation">;</span> i<span class="vs-operator">++</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            q<span class="vs-punctuation">.</span><span class="vs-function">add</span><span class="vs-punctuation">(</span>q<span class="vs-punctuation">.</span><span class="vs-function">remove</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Pushed "</span> <span class="vs-operator">+</span> x <span class="vs-operator">+</span> <span class="vs-string">" to stack"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Pop operation</span>
+    <span class="vs-type">int</span> <span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span>q<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack Underflow! Nothing to pop"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        
+        <span class="vs-type">int</span> popped <span class="vs-operator">=</span> q<span class="vs-punctuation">.</span><span class="vs-function">remove</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Popped: "</span> <span class="vs-operator">+</span> popped<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-keyword">return</span> popped<span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Peek operation</span>
+    <span class="vs-type">int</span> <span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span>q<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack is empty"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span> <span class="vs-operator">-</span><span class="vs-number">1</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        <span class="vs-keyword">return</span> q<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Check if empty</span>
+    <span class="vs-keyword">boolean</span> <span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">return</span> q<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-comment">// Display stack elements</span>
+    <span class="vs-keyword">void</span> <span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack is empty"</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-keyword">return</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">print</span><span class="vs-punctuation">(</span><span class="vs-string">"Stack elements: "</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-keyword">for</span> <span class="vs-type">Integer</span> item <span class="vs-punctuation">:</span> q<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">print</span><span class="vs-punctuation">(</span>item <span class="vs-operator">+</span> <span class="vs-string">" "</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        <span class="vs-punctuation">}</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+
+<span class="vs-keyword">public</span> <span class="vs-keyword">class</span> <span class="vs-class">Main</span> <span class="vs-punctuation">{</span>
+    <span class="vs-keyword">public</span> <span class="vs-keyword">static</span> <span class="vs-keyword">void</span> <span class="vs-function">main</span><span class="vs-punctuation">(</span><span class="vs-type">String</span><span class="vs-punctuation">[</span><span class="vs-punctuation">]</span> args<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-class">StackUsingSingleQueue</span> stack <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">StackUsingSingleQueue</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">10</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">20</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-number">30</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        stack<span class="vs-punctuation">.</span><span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Top element: "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">peek</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        stack<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        stack<span class="vs-punctuation">.</span><span class="vs-function">display</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Is stack empty? "</span> <span class="vs-operator">+</span> stack<span class="vs-punctuation">.</span><span class="vs-function">isEmpty</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="output-block">
+                        <div class="output-header">
+                            <div class="output-title">Output</div>
+                        </div>
+                        <div class="output-content">
+Pushed 10 to stack
+Pushed 20 to stack
+Pushed 30 to stack
+Stack elements: 30 20 10
+Top element: 30
+Popped: 30
+Stack elements: 20 10
+Is stack empty? false
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Explanation</h3>
+                        <p>In this implementation, we use only one queue to simulate a stack:</p>
+                        <ul>
+                            <li><strong>Push Operation (O(n)):</strong> We add the new element to the queue, then rotate the queue (size - 1) times to bring the new element to the front.</li>
+                            <li><strong>Pop Operation (O(1)):</strong> We simply remove and return the front element of the queue.</li>
+                            <li><strong>Peek Operation (O(1)):</strong> We return the front element of the queue without removing it.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="applications">
+                <div class="card">
+                    <h3>Advanced Stack Applications</h3>
+                    <p>Stacks are used in many advanced computer science applications beyond the basic examples:</p>
+                    
+                    <div class="examples-grid">
+                        <div class="example-card">
+                            <div class="example-icon"><i class="fas fa-calculator"></i></div>
+                            <h3>Expression Evaluation</h3>
+                            <p>Stacks are used to evaluate arithmetic expressions in postfix (Reverse Polish Notation) and prefix notation. The algorithm processes each token and uses the stack to store operands and intermediate results.</p>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-icon"><i class="fas fa-code"></i></div>
+                            <h3>Syntax Parsing</h3>
+                            <p>Compilers use stacks to parse source code and check for balanced parentheses, brackets, and braces. When an opening bracket is encountered, it's pushed onto the stack; when a closing bracket is found, the stack is popped to check for a match.</p>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-icon"><i class="fas fa-project-diagram"></i></div>
+                            <h3>Graph Algorithms</h3>
+                            <p>Depth-First Search (DFS) uses a stack (either explicitly or implicitly through recursion) to explore as far as possible along each branch before backtracking. This is fundamental in many graph algorithms.</p>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-icon"><i class="fas fa-memory"></i></div>
+                            <h3>Memory Management</h3>
+                            <p>The call stack is used to manage function calls in most programming languages. Each time a function is called, its context is pushed onto the stack, and when it returns, the context is popped. This is crucial for recursion and exception handling.</p>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-icon"><i class="fas fa-undo-alt"></i></div>
+                            <h3>Undo/Redo Operations</h3>
+                            <p>Advanced implementations use two stacks: one for undo operations and another for redo operations. When an action is performed, it's pushed onto the undo stack. When undo is executed, the action is popped from the undo stack and pushed onto the redo stack.</p>
+                        </div>
+                        
+                        <div class="example-card">
+                            <div class="example-icon"><i class="fas fa-robot"></i></div>
+                            <h3>Backtracking Algorithms</h3>
+                            <p>Algorithms that solve problems by trying all possible solutions use stacks to keep track of the current path. Examples include solving mazes, N-Queens problem, and other constraint satisfaction problems.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Expression Evaluation Example</h3>
+                        <p>Here's an example of how stacks are used to evaluate postfix expressions:</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-title">PostfixEvaluation.java</div>
+                                <button class="copy-btn" data-copy="postfix-code">Copy</button>
+                            </div>
+                            <div class="code-content">
+                                <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50</div>
+                                <div class="code" id="postfix-code">
+<span class="vs-keyword">import</span> java<span class="vs-punctuation">.</span>util<span class="vs-punctuation">.</span><span class="vs-class">Stack</span><span class="vs-punctuation">;</span>
+
+<span class="vs-keyword">public</span> <span class="vs-keyword">class</span> <span class="vs-class">PostfixEvaluation</span> <span class="vs-punctuation">{</span>
+    <span class="vs-keyword">public</span> <span class="vs-keyword">static</span> <span class="vs-type">int</span> <span class="vs-function">evaluatePostfix</span><span class="vs-punctuation">(</span><span class="vs-type">String</span> expression<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-class">Stack</span><span class="vs-punctuation">&lt;</span><span class="vs-type">Integer</span><span class="vs-punctuation">&gt;</span> stack <span class="vs-operator">=</span> <span class="vs-keyword">new</span> <span class="vs-class">Stack</span><span class="vs-punctuation">&lt;</span><span class="vs-punctuation">&gt;</span><span class="vs-punctuation">();</span>
+        
+        <span class="vs-keyword">for</span> <span class="vs-type">int</span> i <span class="vs-operator">=</span> <span class="vs-number">0</span><span class="vs-punctuation">;</span> i <span class="vs-operator">&lt;</span> expression<span class="vs-punctuation">.</span><span class="vs-function">length</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span> i<span class="vs-operator">++</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+            <span class="vs-type">char</span> c <span class="vs-operator">=</span> expression<span class="vs-punctuation">.</span><span class="vs-function">charAt</span><span class="vs-punctuation">(</span>i<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            
+            <span class="vs-comment">// If the character is a digit, push it to the stack</span>
+            <span class="vs-keyword">if</span> <span class="vs-punctuation">(</span><span class="vs-class">Character</span><span class="vs-punctuation">.</span><span class="vs-function">isDigit</span><span class="vs-punctuation">(</span>c<span class="vs-punctuation">)</span><span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+                stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span><span class="vs-class">Character</span><span class="vs-punctuation">.</span><span class="vs-function">getNumericValue</span><span class="vs-punctuation">(</span>c<span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+            <span class="vs-punctuation">}</span> 
+            <span class="vs-comment">// If the character is an operator, pop two elements and apply the operator</span>
+            <span class="vs-keyword">else</span> <span class="vs-punctuation">{</span>
+                <span class="vs-type">int</span> val1 <span class="vs-operator">=</span> stack<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+                <span class="vs-type">int</span> val2 <span class="vs-operator">=</span> stack<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+                
+                <span class="vs-keyword">switch</span> <span class="vs-punctuation">(</span>c<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+                    <span class="vs-keyword">case</span> <span class="vs-string">'+'</span><span class="vs-punctuation">:</span>
+                        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span>val2 <span class="vs-operator">+</span> val1<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+                        <span class="vs-keyword">break</span><span class="vs-punctuation">;</span>
+                    <span class="vs-keyword">case</span> <span class="vs-string">'-'</span><span class="vs-punctuation">:</span>
+                        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span>val2 <span class="vs-operator">-</span> val1<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+                        <span class="vs-keyword">break</span><span class="vs-punctuation">;</span>
+                    <span class="vs-keyword">case</span> <span class="vs-string">'*'</span><span class="vs-punctuation">:</span>
+                        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span>val2 <span class="vs-operator">*</span> val1<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+                        <span class="vs-keyword">break</span><span class="vs-punctuation">;</span>
+                    <span class="vs-keyword">case</span> <span class="vs-string">'/'</span><span class="vs-punctuation">:</span>
+                        stack<span class="vs-punctuation">.</span><span class="vs-function">push</span><span class="vs-punctuation">(</span>val2 <span class="vs-operator">/</span> val1<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+                        <span class="vs-keyword">break</span><span class="vs-punctuation">;</span>
+                <span class="vs-punctuation">}</span>
+            <span class="vs-punctuation">}</span>
+        <span class="vs-punctuation">}</span>
+        <span class="vs-keyword">return</span> stack<span class="vs-punctuation">.</span><span class="vs-function">pop</span><span class="vs-punctuation">(</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+
+    <span class="vs-keyword">public</span> <span class="vs-keyword">static</span> <span class="vs-keyword">void</span> <span class="vs-function">main</span><span class="vs-punctuation">(</span><span class="vs-type">String</span><span class="vs-punctuation">[</span><span class="vs-punctuation">]</span> args<span class="vs-punctuation">)</span> <span class="vs-punctuation">{</span>
+        <span class="vs-type">String</span> expression <span class="vs-operator">=</span> <span class="vs-string">"231*+9-"</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Postfix expression: "</span> <span class="vs-operator">+</span> expression<span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+        System<span class="vs-punctuation">.</span><span class="vs-function">out</span><span class="vs-punctuation">.</span><span class="vs-function">println</span><span class="vs-punctuation">(</span><span class="vs-string">"Result: "</span> <span class="vs-operator">+</span> <span class="vs-function">evaluatePostfix</span><span class="vs-punctuation">(</span>expression<span class="vs-punctuation">)</span><span class="vs-punctuation">)</span><span class="vs-punctuation">;</span>
+    <span class="vs-punctuation">}</span>
+<span class="vs-punctuation">}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="output-block">
+                            <div class="output-header">
+                                <div class="output-title">Output</div>
+                            </div>
+                            <div class="output-content">
+Postfix expression: 231*+9-
+Result: -4
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>Explanation</h3>
+                            <p>The postfix expression "231*+9-" is evaluated as follows:</p>
+                            <ul>
+                                <li>Push 2 onto the stack</li>
+                                <li>Push 3 onto the stack</li>
+                                <li>Push 1 onto the stack</li>
+                                <li>Encounter *: Pop 1 and 3, calculate 3*1 = 3, push 3 onto the stack</li>
+                                <li>Encounter +: Pop 3 and 2, calculate 2+3 = 5, push 5 onto the stack</li>
+                                <li>Push 9 onto the stack</li>
+                                <li>Encounter -: Pop 9 and 5, calculate 5-9 = -4, push -4 onto the stack</li>
+                                <li>Final result is -4</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Interview Questions Section -->
     <section id="interview">
         <div class="container">
@@ -1483,6 +1883,26 @@ All visited pages: [Home, About, Services]
                         <p>When recursive calls go infinite (no stop condition), the program keeps pushing function calls into stack memory → StackOverflowError occurs in Java.</p>
                     </div>
                 </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How to implement a stack using two queues?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Use two queues q1 and q2. For push operation, add new element to q2, then move all elements from q1 to q2, and finally swap q1 and q2. For pop operation, simply remove from q1.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How to implement a stack using a single queue?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Add the new element to the queue, then rotate the queue (size-1) times to bring the new element to the front. For pop operation, simply remove from the front.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1510,20 +1930,19 @@ All visited pages: [Home, About, Services]
                     <div class="footer-column">
                         <h4>Advanced Topics</h4>
                         <ul>
-                            <li><a href="#">Stack using Two Queues</a></li>
-                            <li><a href="#">Stack using Single Queue</a></li>
-                            <li><a href="#">Stack Applications</a></li>
-                            <li><a href="#">Interview Questions</a></li>
+                            <li><a href="#advanced">Stack using Two Queues</a></li>
+                            <li><a href="#advanced">Stack using Single Queue</a></li>
+                            <li><a href="#advanced">Stack Applications</a></li>
+                            <li><a href="#interview">Interview Questions</a></li>
                         </ul>
                     </div>
                     
                     <div class="footer-column">
                         <h4>Connect</h4>
                         <ul>
-                            <li><a href="#">GitHub</a></li>
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="#">LinkedIn</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="https://github.com/6262abhishek/stack.com" target="_blank">GitHub</a></li>
+                        <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Contribute</a></li>
                         </ul>
                     </div>
                 </div>
